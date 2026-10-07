@@ -26,7 +26,7 @@ Mount `/data` for render outputs. `fonts-noto-color-emoji` is needed so emoji ty
 
 ## Desktop
 
-`.github/workflows/release.yml` builds installers on macOS, Windows and Linux runners when a `v*` tag is pushed and attaches them to a draft GitHub release. Signing/notarization secrets are optional; without them the builds are unsigned (fine for internal testing, not for distribution).
+`.github/workflows/release.yml` builds installers on macOS, Windows and Linux runners when a `v*` tag is pushed and attaches them to a draft GitHub release. Publish the draft to make it the latest release; `scripts/install.sh` and `scripts/install.ps1` install whatever `/releases/latest` returns. Signing/notarization secrets are optional; without them the builds are unsigned (fine for internal testing, not for distribution).
 
 Required secrets for signed builds: `CSC_LINK`, `CSC_KEY_PASSWORD`, `APPLE_ID`, `APPLE_APP_SPECIFIC_PASSWORD`, `APPLE_TEAM_ID`, `WIN_CSC_LINK`, `WIN_CSC_KEY_PASSWORD`.
 

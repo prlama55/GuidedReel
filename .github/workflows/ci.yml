@@ -61,7 +61,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Install Chrome dependencies
         run: sudo apt-get update && sudo apt-get install -y libnss3 libatk-bridge2.0-0 libdrm2 libxkbcommon0 libgbm1 libasound2t64 libxshmfence1 fonts-noto-color-emoji
-      - run: pnpm --filter @guidedreel/renderer test:integration
+      - run: pnpm test:integration
 
   build-desktop:
     name: Build desktop (${{ matrix.os }})
@@ -80,11 +80,13 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @guidedreel/desktop build
+      - run: pnpm build:desktop
       # Unpacked app directory only (no installers, no signing) to prove packaging on every OS.
       - run: pnpm --filter @guidedreel/desktop exec electron-builder --dir --config electron-builder.yml
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
-      - name: Desktop end-to-end (create project → export MP4)
+      - name: Desktop end-to-end (create project → export MP4, packaged app boots)
         if: matrix.os == 'macos-latest'
-        run: pnpm --filter @guidedreel/desktop test:e2e
+        run: pnpm turbo run test:e2e --filter=@guidedreel/desktop
+        env:
+          VC_E2E_PACKAGED_APP: apps/desktop/release/mac-arm64/GuidedReel.app/Contents/MacOS/GuidedReel

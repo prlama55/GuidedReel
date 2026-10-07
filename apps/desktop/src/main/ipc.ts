@@ -1,9 +1,9 @@
 import path from 'node:path';
 import { readFile, stat, writeFile } from 'node:fs/promises';
 import { app, dialog, ipcMain, shell, type BrowserWindow } from 'electron';
-import { ACCEPTED_MIME_TYPES, type AssetType } from '@guidedreel/schema';
-import { createLogger, serializeError } from '@guidedreel/engine';
-import { mimeFromPath } from '@guidedreel/renderer';
+import { ACCEPTED_MIME_TYPES, type AssetType } from '@guidedreel/core';
+import { createLogger, serializeError } from '@guidedreel/core';
+import { mimeFromPath } from '@guidedreel/core/render';
 import { IPC, type IpcChannel } from '../shared/ipc';
 import type { FileAssetStore, FileProjectRepository } from './storage';
 import type { AssetProtocol } from './protocol';
@@ -15,7 +15,7 @@ import {
   CLOUD_TTS_PROVIDERS,
   createCloudTtsProvider,
   type CloudTtsProviderId,
-} from '@guidedreel/providers';
+} from '@guidedreel/core/providers';
 
 const log = createLogger('desktop:ipc', { level: 'info' });
 

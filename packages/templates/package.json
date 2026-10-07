@@ -1,16 +1,39 @@
 {
   "name": "@guidedreel/templates",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.2.0",
+  "description": "Video template registry and factories for GuidedReel.",
+  "license": "MIT",
+  "author": {
+    "name": "Padma Raj Lama",
+    "url": "https://github.com/prlama55"
+  },
+  "homepage": "https://github.com/prlama55/GuidedReel#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prlama55/GuidedReel.git",
+    "directory": "packages/templates"
+  },
+  "bugs": {
+    "url": "https://github.com/prlama55/GuidedReel/issues"
+  },
   "type": "module",
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./src/index.ts",
-      "default": "./src/index.ts"
-    }
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
     "typecheck": "tsc -p tsconfig.json",
     "lint": "eslint src",
     "test": "vitest run",
@@ -25,6 +48,7 @@
     "@guidedreel/config": "workspace:*",
     "eslint": "catalog:",
     "rimraf": "catalog:",
+    "tsup": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
   }

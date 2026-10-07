@@ -33,6 +33,16 @@ export class TemplateRegistry {
     return this;
   }
 
+  /**
+   * Registers several templates at once. An id that is already registered is replaced, so
+   * app start-up code can run again under hot module reloading without throwing.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  registerAll(templates: ReadonlyArray<TemplateDefinition<any>>): this {
+    for (const template of templates) this.templates.set(template.meta.id, template);
+    return this;
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   get(id: string): TemplateDefinition<any> | undefined {
     return this.templates.get(id);

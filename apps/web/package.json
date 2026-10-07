@@ -14,16 +14,7 @@
     "clean": "rimraf .next .turbo out test-results playwright-report"
   },
   "dependencies": {
-    "@remotion/bundler": "catalog:",
-    "@remotion/renderer": "catalog:",
-    "@guidedreel/compositions": "workspace:*",
-    "@guidedreel/engine": "workspace:*",
-    "@guidedreel/providers": "workspace:*",
-    "@guidedreel/renderer": "workspace:*",
-    "@guidedreel/schema": "workspace:*",
-    "@guidedreel/storage": "workspace:*",
-    "@guidedreel/templates": "workspace:*",
-    "@guidedreel/ui": "workspace:*",
+    "@guidedreel/core": "workspace:*",
     "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",

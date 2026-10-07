@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { ACCEPTED_MIME_TYPES, RenderOptionsSchema, validateProject } from '@guidedreel/schema';
-import { missingAssetIds } from '@guidedreel/engine';
+import { ACCEPTED_MIME_TYPES, RenderOptionsSchema, validateProject } from '@guidedreel/core';
+import { missingAssetIds } from '@guidedreel/core';
 import { getRenderService } from '@/server/render-service';
 import { createRateLimiter } from '@/server/rate-limit';
 import { env } from '@/server/env';

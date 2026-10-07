@@ -12,13 +12,13 @@ import {
   type EditorHost,
   type Route,
   HttpTtsClient,
-} from '@guidedreel/ui';
+} from '@guidedreel/core/ui';
 import {
   IndexedDBAssetStore,
   IndexedDBProjectRepository,
   createStoreAssetResolver,
-} from '@guidedreel/storage';
-import { templateRegistry } from '@guidedreel/templates';
+} from '@guidedreel/core/storage';
+import { templateRegistry } from '@guidedreel/core';
 import { HttpRenderClient } from '@/lib/http-render-client';
 
 /**

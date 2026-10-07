@@ -1,6 +1,6 @@
-import type { Asset, RenderJob, RenderOptionsInput, VideoProject } from '@guidedreel/schema';
-import type { AssetResolver } from '@guidedreel/engine';
-import type { AssetStore, ProjectRepository, StoredAssetMeta } from '@guidedreel/storage';
+import type { Asset, RenderJob, RenderOptionsInput, VideoProject } from '@guidedreel/core';
+import type { AssetResolver } from '@guidedreel/core';
+import type { AssetStore, ProjectRepository, StoredAssetMeta } from '@guidedreel/core/storage';
 import type {
   PlatformAdapter,
   RenderClient,
@@ -9,9 +9,9 @@ import type {
   TtsProviderInfo,
   SynthesizeRequest,
   InstallProgress,
-} from '@guidedreel/ui';
-import type { TtsVoice } from '@guidedreel/engine';
-import type { CloudTtsProviderId } from '@guidedreel/providers';
+} from '@guidedreel/core/ui';
+import type { TtsVoice } from '@guidedreel/core';
+import type { CloudTtsProviderId } from '@guidedreel/core/providers';
 import { ASSET_PROTOCOL } from '../../shared/ipc';
 
 const vc = () => window.vc;

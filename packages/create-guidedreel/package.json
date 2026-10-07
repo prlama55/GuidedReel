@@ -1,0 +1,68 @@
+{
+  "name": "create-guidedreel",
+  "version": "0.2.0",
+  "description": "Scaffold a new GuidedReel-based video creator monorepo (Next.js web app + Electron desktop app, shared Remotion engine) without cloning the repository.",
+  "license": "MIT",
+  "author": {
+    "name": "Padma Raj Lama",
+    "url": "https://github.com/prlama55"
+  },
+  "homepage": "https://github.com/prlama55/GuidedReel/tree/main/packages/create-guidedreel#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prlama55/GuidedReel.git",
+    "directory": "packages/create-guidedreel"
+  },
+  "bugs": {
+    "url": "https://github.com/prlama55/GuidedReel/issues"
+  },
+  "keywords": [
+    "create",
+    "scaffold",
+    "starter",
+    "video-editor",
+    "remotion",
+    "nextjs",
+    "electron",
+    "monorepo",
+    "guidedreel"
+  ],
+  "type": "module",
+  "bin": {
+    "create-guidedreel": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "template"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "pnpm build:cli && pnpm build:template",
+    "build:cli": "esbuild src/cli.ts --bundle --platform=node --format=esm --target=node22 --outfile=dist/cli.js --banner:js=\"#!/usr/bin/env node\nimport { createRequire } from 'node:module'; const require = createRequire(import.meta.url);\" --log-level=warning",
+    "build:template": "tsx scripts/snapshot-template.ts",
+    "prepack": "pnpm build",
+    "start": "node dist/cli.js",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint src scripts",
+    "test": "vitest run",
+    "clean": "rimraf dist template .turbo coverage"
+  },
+  "dependencies": {
+    "@clack/prompts": "catalog:"
+  },
+  "devDependencies": {
+    "@guidedreel/config": "workspace:*",
+    "@types/node": "catalog:",
+    "esbuild": "catalog:",
+    "eslint": "catalog:",
+    "rimraf": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

@@ -17,6 +17,8 @@ apps/
   web/             Next.js 16 shell: routing, local-first persistence, in-process render worker
   desktop/         Electron shell: main / preload / renderer, native dialogs, local render
 packages/
+  core/            umbrella the apps depend on: re-exports schema + engine + templates, and
+                   ui / render / storage / providers / styles.css as subpaths
   schema/          Zod schemas + inferred types, format presets, scene definitions, migrations
   engine/          timeline math, durations, project factory, script import, errors, logger, AI seams
   templates/       template registry + template factories (TemplateInput → VideoProject)
@@ -24,25 +26,33 @@ packages/
   renderer/        VideoRenderer interface, LocalRemotionRenderer, asset server (Node only)
   storage/         ProjectRepository / AssetStore / StorageProvider interfaces + implementations
   ui/              shared editor React components, editor store, PlatformAdapter
-  config/          shared tsconfig / eslint presets
+  config/          shared tsconfig / eslint / tsup presets (private)
+  create-guidedreel/  npm scaffolder that copies this monorepo into a new, renamed project
 ```
+
+Every package under `packages/` except `config` is published to npm with one shared version. Packages are compiled to `dist/` (tsup) and consumed from there by the apps, the tests and Remotion's bundler alike.
 
 ## Dependency graph
 
 ```text
 apps/web ───┐
-            ├──▶ ui ──▶ compositions ──▶ engine ──▶ schema
-apps/desktop┘    │  └──▶ templates ───▶ engine
-                 └──▶ storage ─────────▶ engine
-apps/* ──▶ renderer ──▶ compositions/metadata (React-free), engine
+            ├──▶ core ─┬─▶ ui ──▶ compositions ──▶ engine ──▶ schema
+apps/desktop┘          │    │  └──▶ templates ───▶ engine
+                       │    └──▶ storage ─────────▶ engine
+                       ├─▶ renderer ──▶ compositions/metadata (React-free), engine
+                       ├─▶ storage, providers
+                       └─▶ schema, engine, templates
 ```
+
+The apps import only `@guidedreel/core` (root: schema + engine + templates; `/ui`, `/render`, `/storage`, `/providers`, `/styles.css`). Remotion is a dependency of `compositions`, `ui` and `renderer`; no app lists it, and the app lint preset forbids importing it.
 
 Rules enforced by convention and lint:
 
 - `schema` and `engine` import no React, no Node built-ins, no browser globals.
 - `compositions` imports React + Remotion only. No fetch, no storage, no UI libraries.
 - `ui` imports nothing from `next/*` or `electron`. Routing and platform features are injected.
-- `renderer` is Node-only and is consumed by the web server and the Electron main process. It imports only the React-free `@guidedreel/compositions/metadata` subpath so server bundles never include component code.
+- Apps import `@guidedreel/core` only, never `remotion`, `@remotion/*` or an individual `@guidedreel/*` package (lint-enforced via `createConfig({ app: true })`).
+- `renderer` is Node-only and is consumed by the web server and the Electron main process through `@guidedreel/core/render`; server bundlers keep it external. It imports only the React-free `@guidedreel/compositions/metadata` subpath so server bundles never include component code.
 
 ## Core document model
 
@@ -121,6 +131,18 @@ Text-to-speech is implemented behind `TTSProvider` (`packages/engine/src/extensi
 
 Stock GIF/sticker services (GIPHY, Tenor) need API keys and attribution, so V1 ships only the free Noto emoji catalogue and user-uploaded GIFs; a GIPHY or Tenor adapter would implement `StockMediaProvider` and feed the same sticker/media overlay types.
 
+## Distribution and extension model
+
+Three ways to use the engine, all fed from this repository:
+
+| Channel                              | What ships                                                                                  | Who it is for                             |
+| ------------------------------------ | ------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| npm packages (`@guidedreel/*`)       | Compiled `dist/` of every package, one shared version via Changesets, `release-npm.yml`     | Developers building their own app on core |
+| `create-guidedreel`                  | App mode: web/desktop shells + `packages/extensions`; fork mode: the whole monorepo renamed | Same developers, zero-clone start         |
+| Desktop installers + install scripts | `release.yml` → draft GitHub release (dmg/exe/AppImage/deb); `scripts/install.sh` / `.ps1`  | End users without developer tools         |
+
+Extension points today: **templates** (`TemplateDefinition`, registered with `templateRegistry.registerAll` by the app shell; this is what generated apps use), **storage / platform adapters** (injected `EditorHost`), **TTS providers**, format and brand presets. Scene _types_ are not extensible from an app on core, because their React components must be inside the Remotion bundle the renderer builds from `@guidedreel/compositions/entry`; adding one means changing the engine (schema definition + component + icon) and releasing. A future plugin mechanism would let core's renderer bundle separately published scene packages by name, keeping Remotion out of apps.
+
 ## Technical risks and how they are handled
 
 | Risk                                                        | Mitigation                                                                                                   |
@@ -131,3 +153,6 @@ Stock GIF/sticker services (GIPHY, Tenor) need API keys and attribution, so V1 s
 | Remotion version drift across packages                      | Single version pinned in the pnpm catalog                                                                    |
 | Large media in memory                                       | Assets are referenced by URL/path; browser assets stay as Blobs in IndexedDB; thumbnails for UI              |
 | Non-Latin scripts (Nepali etc.)                             | Default fonts with wide Unicode coverage; custom font upload via brand kit                                   |
+| electron-builder copies the hoisted copy of a dependency    | Single `get-stream` version via pnpm `overrides`; `packaged.spec.ts` boots the packaged app in CI            |
+| Apps drifting back to direct Remotion/package imports       | Apps depend on `@guidedreel/core` only; `createConfig({ app: true })` lint preset forbids other imports      |
+| Interrupted `tsup --watch` leaves `dist/` without types     | `pnpm turbo run build --filter='./packages/*' --force`; turbo's `^build` dependency restores cached outputs  |

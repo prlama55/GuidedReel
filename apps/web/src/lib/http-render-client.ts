@@ -1,6 +1,6 @@
-import type { RenderJob, RenderOptionsInput, VideoProject } from '@guidedreel/schema';
-import type { AssetStore } from '@guidedreel/storage';
-import { pollingSubscribe, type RenderClient } from '@guidedreel/ui';
+import type { RenderJob, RenderOptionsInput, VideoProject } from '@guidedreel/core';
+import type { AssetStore } from '@guidedreel/core/storage';
+import { pollingSubscribe, type RenderClient } from '@guidedreel/core/ui';
 
 /**
  * Talks to /api/render. Assets stored in the browser are uploaded with the

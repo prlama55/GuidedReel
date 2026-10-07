@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { safeStorage } from 'electron';
-import { createLogger } from '@guidedreel/engine';
+import { createLogger } from '@guidedreel/core';
 
 const log = createLogger('desktop:secrets', { level: 'info' });
 

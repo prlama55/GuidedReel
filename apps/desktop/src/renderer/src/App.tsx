@@ -15,8 +15,8 @@ import {
   useProjects,
   type EditorHost,
   type Route,
-} from '@guidedreel/ui';
-import { templateRegistry } from '@guidedreel/templates';
+} from '@guidedreel/core/ui';
+import { templateRegistry } from '@guidedreel/core';
 import type { MenuAction } from '../../shared/ipc';
 import {
   DesktopAssetStore,

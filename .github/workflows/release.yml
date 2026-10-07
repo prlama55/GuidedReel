@@ -31,7 +31,7 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @guidedreel/desktop build
+      - run: pnpm build:desktop
       - name: Package installers
         run: pnpm --filter @guidedreel/desktop exec electron-builder ${{ matrix.target }} --publish never --config electron-builder.yml
         env:

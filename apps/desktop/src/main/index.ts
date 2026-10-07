@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { mkdir, appendFile } from 'node:fs/promises';
 import { BrowserWindow, app, dialog, shell, session } from 'electron';
-import { createLogger, type LogSink, consoleSink } from '@guidedreel/engine';
+import { createLogger, type LogSink, consoleSink } from '@guidedreel/core';
 import { FileAssetStore, FileProjectRepository } from './storage';
 import { AssetProtocol } from './protocol';
 import { RenderManager } from './render-manager';

@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { mkdir, rm, writeFile } from 'node:fs/promises';
-import type { Asset, RenderJob, RenderOptions, VideoProject } from '@guidedreel/schema';
-import { TERMINAL_RENDER_STATUSES } from '@guidedreel/schema';
+import type { Asset, RenderJob, RenderOptions, VideoProject } from '@guidedreel/core';
+import { TERMINAL_RENDER_STATUSES } from '@guidedreel/core';
 import {
   createId,
   createLogger,
@@ -9,8 +9,8 @@ import {
   parseLogLevel,
   serializeError,
   type Logger,
-} from '@guidedreel/engine';
-import { LocalRemotionRenderer } from '@guidedreel/renderer';
+} from '@guidedreel/core';
+import { LocalRemotionRenderer } from '@guidedreel/core/render';
 import { env } from './env';
 
 type Entry = {

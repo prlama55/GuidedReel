@@ -1,14 +1,37 @@
 {
   "name": "@guidedreel/config",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.2.0",
+  "description": "Shared tsconfig, ESLint and tsup presets for GuidedReel packages and apps built on @guidedreel/core.",
+  "license": "MIT",
+  "author": {
+    "name": "Padma Raj Lama",
+    "url": "https://github.com/prlama55"
+  },
+  "homepage": "https://github.com/prlama55/GuidedReel#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prlama55/GuidedReel.git",
+    "directory": "packages/config"
+  },
+  "bugs": {
+    "url": "https://github.com/prlama55/GuidedReel/issues"
+  },
   "type": "module",
   "exports": {
     "./tsconfig/base.json": "./tsconfig/base.json",
     "./tsconfig/library.json": "./tsconfig/library.json",
     "./tsconfig/react-library.json": "./tsconfig/react-library.json",
     "./tsconfig/node-library.json": "./tsconfig/node-library.json",
-    "./eslint": "./eslint/index.js"
+    "./eslint": "./eslint/index.js",
+    "./tsup": "./tsup/index.js"
+  },
+  "files": [
+    "eslint",
+    "tsconfig",
+    "tsup"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "@eslint/js": "catalog:",

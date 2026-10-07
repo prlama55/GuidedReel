@@ -4,8 +4,8 @@ import {
   RenderJobSchema,
   RenderOptionsSchema,
   VideoProjectSchema,
-} from '@guidedreel/schema';
-import type { RenderJob, VideoProject } from '@guidedreel/schema';
+} from '@guidedreel/core';
+import type { RenderJob, VideoProject } from '@guidedreel/core';
 
 /**
  * IPC contract shared by main, preload and renderer. Every channel has a Zod

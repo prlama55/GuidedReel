@@ -2,7 +2,19 @@
 
 ## Choose how to run it
 
-**Desktop app.** Download the installer for your system from the project's [Releases page](https://github.com/prlama55/GuidedReel/releases): a `.dmg` for macOS, an `.exe` for Windows, an `.AppImage` or `.deb` for Linux. Projects, media and rendered videos stay on your computer, rendering runs locally, and offline voices are available. Unsigned beta builds show a security warning the first time: on macOS right-click the app and choose Open, on Windows choose "More info" then "Run anyway".
+**Desktop app.** The quickest way is one command in a terminal, which downloads and installs the latest release for your system:
+
+```bash
+# macOS and Linux
+curl -fsSL https://github.com/prlama55/GuidedReel/raw/main/scripts/install.sh | sh
+```
+
+```powershell
+# Windows (PowerShell)
+irm https://github.com/prlama55/GuidedReel/raw/main/scripts/install.ps1 | iex
+```
+
+Or download the installer yourself from the project's [Releases page](https://github.com/prlama55/GuidedReel/releases): a `.dmg` for macOS, an `.exe` for Windows, an `.AppImage` or `.deb` for Linux. Projects, media and rendered videos stay on your computer, rendering runs locally, and offline voices are available. Unsigned beta builds show a security warning the first time: on macOS right-click the app and choose Open, on Windows choose "More info" then "Run anyway".
 
 **Web app.** Open the hosted address your team gave you, or run it yourself with the steps in [development.md](../development.md). Projects and media are stored in your browser, so use the same browser and profile to see them again. Rendering happens on the server and the finished MP4 downloads to your computer.
 

@@ -2,18 +2,11 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  // Shared packages are consumed from TypeScript source.
-  transpilePackages: [
-    '@guidedreel/ui',
-    '@guidedreel/compositions',
-    '@guidedreel/engine',
-    '@guidedreel/schema',
-    '@guidedreel/storage',
-    '@guidedreel/templates',
-    '@guidedreel/renderer',
-  ],
-  // Remotion's renderer spawns native binaries; keep it out of the server bundle.
+  // Remotion's renderer spawns native binaries and resolves the compositions bundle entry on
+  // disk at runtime, so these stay out of the server bundle and load from node_modules.
   serverExternalPackages: [
+    '@guidedreel/renderer',
+    '@guidedreel/compositions',
     '@remotion/renderer',
     '@remotion/bundler',
     '@remotion/compositor-darwin-arm64',

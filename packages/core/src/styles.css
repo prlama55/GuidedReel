@@ -1,0 +1,7 @@
+/*
+ * GuidedReel editor styles. In your app CSS:
+ *   @import "tailwindcss";
+ *   @import "@guidedreel/core/styles.css";
+ * The imported sheet registers its compiled components as a Tailwind source.
+ */
+@import '@guidedreel/ui/styles.css';

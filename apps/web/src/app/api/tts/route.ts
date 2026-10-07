@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { z } from 'zod';
-import { createCloudTtsProvider } from '@guidedreel/providers';
+import { createCloudTtsProvider } from '@guidedreel/core/providers';
 import { createRateLimiter } from '@/server/rate-limit';
 
 export const runtime = 'nodejs';

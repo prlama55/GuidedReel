@@ -1,0 +1,98 @@
+{
+  "name": "@guidedreel/core",
+  "version": "0.2.0",
+  "description": "GuidedReel video creation engine in one package: schemas, timeline engine, templates, React editor, storage, providers and the Remotion renderer. Apps depend on this alone.",
+  "license": "MIT",
+  "author": {
+    "name": "Padma Raj Lama",
+    "url": "https://github.com/prlama55"
+  },
+  "homepage": "https://github.com/prlama55/GuidedReel#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prlama55/GuidedReel.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/prlama55/GuidedReel/issues"
+  },
+  "keywords": [
+    "video-editor",
+    "video-generator",
+    "remotion",
+    "react",
+    "typescript",
+    "short-video",
+    "reels",
+    "shorts"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./ui": {
+      "types": "./dist/ui.d.ts",
+      "default": "./dist/ui.js"
+    },
+    "./render": {
+      "types": "./dist/render.d.ts",
+      "default": "./dist/render.js"
+    },
+    "./storage": {
+      "types": "./dist/storage.d.ts",
+      "default": "./dist/storage.js"
+    },
+    "./providers": {
+      "types": "./dist/providers.d.ts",
+      "default": "./dist/providers.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint src",
+    "test": "vitest run",
+    "clean": "rimraf dist .turbo coverage"
+  },
+  "dependencies": {
+    "@guidedreel/compositions": "workspace:*",
+    "@guidedreel/engine": "workspace:*",
+    "@guidedreel/providers": "workspace:*",
+    "@guidedreel/renderer": "workspace:*",
+    "@guidedreel/schema": "workspace:*",
+    "@guidedreel/storage": "workspace:*",
+    "@guidedreel/templates": "workspace:*",
+    "@guidedreel/ui": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@guidedreel/config": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "eslint": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "rimraf": "catalog:",
+    "tsup": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

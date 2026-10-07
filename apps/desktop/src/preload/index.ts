@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer, webUtils } from 'electron';
 import type { DesktopApi, IpcChannel, MenuAction } from '../shared/ipc';
-import type { RenderJob } from '@guidedreel/schema';
+import type { RenderJob } from '@guidedreel/core';
 
 /** Only the typed `window.vc` surface is exposed; no raw ipcRenderer, fs or Node. */
 const invoke = <T>(channel: IpcChannel, ...args: unknown[]): Promise<T> =>

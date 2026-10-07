@@ -10,3 +10,4 @@ apps/desktop/resources/remotion-bundle
 apps/web/next-env.d.ts
 .render
 apps/desktop/.electron-dev
+packages/create-guidedreel/template

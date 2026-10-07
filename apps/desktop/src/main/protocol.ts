@@ -3,7 +3,7 @@ import { stat } from 'node:fs/promises';
 import path from 'node:path';
 import { Readable } from 'node:stream';
 import { net, protocol } from 'electron';
-import { mimeFromPath } from '@guidedreel/renderer';
+import { mimeFromPath } from '@guidedreel/core/render';
 import { ASSET_PROTOCOL } from '../shared/ipc';
 import type { FileAssetStore } from './storage';
 

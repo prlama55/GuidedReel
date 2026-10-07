@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { z } from 'zod';
-import { createCloudTtsProvider } from '@guidedreel/providers';
+import { createCloudTtsProvider } from '@guidedreel/core/providers';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';

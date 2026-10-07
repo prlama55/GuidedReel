@@ -7,9 +7,9 @@ import type {
   RenderProgress,
   RenderResult,
   VideoProject,
-} from '@guidedreel/schema';
-import { RenderOptionsSchema, TERMINAL_RENDER_STATUSES } from '@guidedreel/schema';
-import { createId, createLogger, type SerializedError } from '@guidedreel/engine';
+} from '@guidedreel/core';
+import { RenderOptionsSchema, TERMINAL_RENDER_STATUSES } from '@guidedreel/core';
+import { createId, createLogger, type SerializedError } from '@guidedreel/core';
 import type { FileAssetStore } from './storage';
 
 const log = createLogger('desktop:render', { level: 'info' });

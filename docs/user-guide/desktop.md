@@ -4,7 +4,21 @@ The desktop app is the same editor packaged with a local video renderer. It work
 
 ## Installing
 
-Download from the [Releases page](https://github.com/prlama55/GuidedReel/releases):
+**One command.** Open a terminal and paste the line for your system. It downloads the latest release, installs it and opens the app.
+
+```bash
+# macOS and Linux
+curl -fsSL https://github.com/prlama55/GuidedReel/raw/main/scripts/install.sh | sh
+```
+
+```powershell
+# Windows (PowerShell)
+irm https://github.com/prlama55/GuidedReel/raw/main/scripts/install.ps1 | iex
+```
+
+On macOS the script copies the app to Applications (or your user Applications folder) and marks it as trusted, because beta builds are not notarized yet. On Linux it installs the AppImage into `~/.local/bin` with an application menu entry; add `--deb` to use the system package manager instead (`curl ... | sh -s -- --deb`). On Windows it starts the normal setup wizard; add `-Silent` to a downloaded copy of the script for an unattended install.
+
+**Manual download.** Pick a file from the [Releases page](https://github.com/prlama55/GuidedReel/releases):
 
 | System  | File                  | Notes                                                                                                       |
 | ------- | --------------------- | ----------------------------------------------------------------------------------------------------------- |

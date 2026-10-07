@@ -2,9 +2,9 @@
  * Runs in an Electron utilityProcess so a long render never blocks the main
  * process. Receives one job over parentPort, streams progress back, exits.
  */
-import type { RenderOptions, VideoProject } from '@guidedreel/schema';
-import { serializeError, createLogger } from '@guidedreel/engine';
-import { LocalRemotionRenderer } from '@guidedreel/renderer';
+import type { RenderOptions, VideoProject } from '@guidedreel/core';
+import { serializeError, createLogger } from '@guidedreel/core';
+import { LocalRemotionRenderer } from '@guidedreel/core/render';
 
 type StartMessage = {
   type: 'start';

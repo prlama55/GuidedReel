@@ -1,8 +1,8 @@
 /*
  * Design tokens for the shared UI. Apps import this after Tailwind:
  *   @import "tailwindcss";
- *   @import "@guidedreel/ui/styles.css";
- *   @source "../../../packages/ui/src";
+ *   @import "@guidedreel/core/styles.css";   (or "@guidedreel/ui/styles.css")
+ * The built copy in dist/ starts with @source "./" so Tailwind scans the compiled components.
  * Dark is the default editor theme; light is opt-in via data-theme="light".
  */
 

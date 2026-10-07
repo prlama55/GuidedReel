@@ -1,8 +1,8 @@
 import path from 'node:path';
 import { mkdir, readFile, readdir, rm, writeFile, stat } from 'node:fs/promises';
-import type { VideoProject } from '@guidedreel/schema';
-import { parseProjectDocument } from '@guidedreel/schema';
-import { createLogger } from '@guidedreel/engine';
+import type { VideoProject } from '@guidedreel/core';
+import { parseProjectDocument } from '@guidedreel/core';
+import { createLogger } from '@guidedreel/core';
 import type { StoredAssetMetaDTO } from '../shared/ipc';
 
 const log = createLogger('desktop:storage', { level: 'info' });

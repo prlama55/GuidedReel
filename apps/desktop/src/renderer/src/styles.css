@@ -1,6 +1,5 @@
 @import 'tailwindcss';
-@import '@guidedreel/ui/styles.css';
-@source '../../../../../packages/ui/src';
+@import '@guidedreel/core/styles.css';
 
 html,
 body,

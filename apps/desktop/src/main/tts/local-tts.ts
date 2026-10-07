@@ -5,20 +5,15 @@ import { createWriteStream } from 'node:fs';
 import { mkdir, readFile, readdir, rename, rm, stat } from 'node:fs/promises';
 import { pipeline } from 'node:stream/promises';
 import { Readable } from 'node:stream';
-import type {
-  SynthesizeOptions,
-  SynthesizedSpeech,
-  TTSProvider,
-  TtsVoice,
-} from '@guidedreel/engine';
-import { VideoCreatorError, createLogger } from '@guidedreel/engine';
+import type { SynthesizeOptions, SynthesizedSpeech, TTSProvider, TtsVoice } from '@guidedreel/core';
+import { VideoCreatorError, createLogger } from '@guidedreel/core';
 import {
   PIPER_VOICES,
   localEngineUrl,
   localVoiceArchiveUrl,
   type LocalTtsArch,
   type LocalTtsPlatform,
-} from '@guidedreel/providers';
+} from '@guidedreel/core/providers';
 
 const log = createLogger('desktop:tts', { level: 'info' });
 
