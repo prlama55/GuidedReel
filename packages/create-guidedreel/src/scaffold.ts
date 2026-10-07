@@ -114,6 +114,7 @@ async function listTarballDir(dir: string): Promise<string[]> {
           `Create it from the GuidedReel checkout first:\n` +
           `  pnpm build:packages\n` +
           `  pnpm -r --filter './packages/*' --filter '!create-guidedreel' pack --pack-destination ${dir}`,
+        { cause: err },
       );
     }
     throw err;
