@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350"><defs><linearGradient id="g" gradientTransform="rotate(135)"><stop offset="0" stop-color="#0F766E"/><stop offset="1" stop-color="#6366F1"/></linearGradient></defs><rect width="1080" height="1350" fill="url(#g)"/>
+       <rect x="140" y="330" width="560" height="260" rx="60" fill="#fff"/>
+       <text x="420" y="500" font-family="Helvetica, Arial, sans-serif" font-size="120" font-weight="800" fill="#0F766E" text-anchor="middle">नेपाली</text>
+       <rect x="380" y="720" width="560" height="260" rx="60" fill="#0B0F19"/>
+       <text x="660" y="890" font-family="Helvetica, Arial, sans-serif" font-size="120" font-weight="800" fill="#fff" text-anchor="middle">English</text></svg>

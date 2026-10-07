@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#EC4899"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000" flood-opacity=".35"/>
+    </filter>
+    
+  </defs>
+  <rect x="96" y="96" width="832" height="832" rx="186" fill="url(#bg)" filter="url(#shadow)"/>
+  <rect x="96" y="96" width="832" height="416" rx="186" fill="url(#shine)"/>
+  
+  <circle cx="512" cy="512" r="300" fill="#fff"/>
+  <g fill="url(#bg)">
+    <circle cx="512" cy="330" r="72"/>
+    <circle cx="512" cy="694" r="72"/>
+    <circle cx="330" cy="512" r="72"/>
+    <circle cx="694" cy="512" r="72"/>
+    <path d="M470 440 l126 72 -126 72z"/>
+  </g>
+
+</svg>

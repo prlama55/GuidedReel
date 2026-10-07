@@ -1,0 +1,60 @@
+{
+  "name": "guidedreel",
+  "version": "0.1.0",
+  "description": "Script-to-video creator for Reels, Shorts, TikTok and ads. Shared Remotion engine behind a Next.js web app and an Electron desktop app.",
+  "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "Padma Raj Lama",
+    "url": "https://github.com/prlama55"
+  },
+  "homepage": "https://github.com/prlama55/GuidedReel#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prlama55/GuidedReel.git"
+  },
+  "bugs": {
+    "url": "https://github.com/prlama55/GuidedReel/issues"
+  },
+  "keywords": [
+    "video-editor",
+    "video-generator",
+    "remotion",
+    "nextjs",
+    "electron",
+    "react",
+    "typescript",
+    "short-video",
+    "instagram-reels",
+    "youtube-shorts",
+    "tiktok",
+    "text-to-speech",
+    "monorepo"
+  ],
+  "packageManager": "pnpm@10.17.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:web": "pnpm --filter @guidedreel/web dev",
+    "dev:desktop": "pnpm --filter @guidedreel/desktop dev",
+    "build": "turbo run build",
+    "build:web": "turbo run build --filter=@guidedreel/web...",
+    "build:desktop": "turbo run build --filter=@guidedreel/desktop...",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:e2e": "pnpm --filter @guidedreel/web test:e2e",
+    "format": "prettier --write \"**/*.{ts,tsx,js,mjs,cjs,json,md,yml,yaml,css}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,mjs,cjs,json,md,yml,yaml,css}\"",
+    "clean": "turbo run clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "@guidedreel/config": "workspace:*",
+    "prettier": "catalog:",
+    "turbo": "catalog:",
+    "typescript": "catalog:"
+  }
+}

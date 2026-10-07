@@ -1,0 +1,44 @@
+{
+  "name": "@guidedreel/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start --port 3000",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint src e2e",
+    "test": "echo \"(web unit tests live in packages; e2e via test:e2e)\"",
+    "test:e2e": "playwright test",
+    "clean": "rimraf .next .turbo out test-results playwright-report"
+  },
+  "dependencies": {
+    "@remotion/bundler": "catalog:",
+    "@remotion/renderer": "catalog:",
+    "@guidedreel/compositions": "workspace:*",
+    "@guidedreel/engine": "workspace:*",
+    "@guidedreel/providers": "workspace:*",
+    "@guidedreel/renderer": "workspace:*",
+    "@guidedreel/schema": "workspace:*",
+    "@guidedreel/storage": "workspace:*",
+    "@guidedreel/templates": "workspace:*",
+    "@guidedreel/ui": "workspace:*",
+    "next": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@playwright/test": "catalog:",
+    "@tailwindcss/postcss": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@guidedreel/config": "workspace:*",
+    "eslint": "catalog:",
+    "rimraf": "catalog:",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "name": "@guidedreel/compositions",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./metadata": {
+      "types": "./src/metadata.ts",
+      "default": "./src/metadata.ts"
+    },
+    "./entry": "./src/entry.tsx",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint src",
+    "test": "vitest run",
+    "studio": "remotion studio src/entry.tsx",
+    "clean": "rimraf dist .turbo coverage"
+  },
+  "dependencies": {
+    "@remotion/fonts": "catalog:",
+    "@remotion/gif": "catalog:",
+    "@remotion/transitions": "catalog:",
+    "@guidedreel/engine": "workspace:*",
+    "@guidedreel/schema": "workspace:*",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "remotion": "catalog:"
+  },
+  "devDependencies": {
+    "@remotion/cli": "catalog:",
+    "@testing-library/react": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@guidedreel/config": "workspace:*",
+    "eslint": "catalog:",
+    "jsdom": "catalog:",
+    "rimraf": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

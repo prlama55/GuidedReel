@@ -1,0 +1,5 @@
+{
+  "extends": "@guidedreel/config/tsconfig/react-library.json",
+  "compilerOptions": { "types": [] },
+  "include": ["src"]
+}

@@ -1,0 +1,3 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><defs><linearGradient id="g" gradientTransform="rotate(135)"><stop offset="0" stop-color="#6366F1"/><stop offset="1" stop-color="#EC4899"/></linearGradient></defs><rect width="512" height="512" rx="120" fill="url(#g)"/>
+       <path d="M150 160h60l46 130 46-130h60l-78 200h-56z" fill="#fff"/>
+       <circle cx="396" cy="130" r="26" fill="#FDE68A"/></svg>

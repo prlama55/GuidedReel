@@ -1,0 +1,149 @@
+/*
+ * Design tokens for the shared UI. Apps import this after Tailwind:
+ *   @import "tailwindcss";
+ *   @import "@guidedreel/ui/styles.css";
+ *   @source "../../../packages/ui/src";
+ * Dark is the default editor theme; light is opt-in via data-theme="light".
+ */
+
+:root {
+  --vc-bg: #0b0e14;
+  --vc-surface: #11151d;
+  --vc-surface-2: #171c26;
+  --vc-surface-3: #1f2532;
+  --vc-border: #273041;
+  --vc-border-strong: #364158;
+  --vc-fg: #e6e9f0;
+  --vc-fg-muted: #99a3b8;
+  --vc-fg-subtle: #6b7489;
+  --vc-primary: #6366f1;
+  --vc-primary-fg: #ffffff;
+  --vc-primary-hover: #585be0;
+  --vc-accent: #f59e0b;
+  --vc-success: #22c55e;
+  --vc-warning: #f59e0b;
+  --vc-danger: #ef4444;
+  --vc-danger-fg: #ffffff;
+  --vc-ring: #818cf8;
+  --vc-stage: #05070a;
+  --vc-radius: 10px;
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  --vc-bg: #f6f7fa;
+  --vc-surface: #ffffff;
+  --vc-surface-2: #f1f3f8;
+  --vc-surface-3: #e7eaf2;
+  --vc-border: #dfe3ec;
+  --vc-border-strong: #c9cfdd;
+  --vc-fg: #111827;
+  --vc-fg-muted: #4b5563;
+  --vc-fg-subtle: #6b7280;
+  --vc-primary: #4f46e5;
+  --vc-primary-hover: #4338ca;
+  --vc-ring: #6366f1;
+  --vc-stage: #1b1f2a;
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-bg: var(--vc-bg);
+  --color-surface: var(--vc-surface);
+  --color-surface-2: var(--vc-surface-2);
+  --color-surface-3: var(--vc-surface-3);
+  --color-border: var(--vc-border);
+  --color-border-strong: var(--vc-border-strong);
+  --color-fg: var(--vc-fg);
+  --color-fg-muted: var(--vc-fg-muted);
+  --color-fg-subtle: var(--vc-fg-subtle);
+  --color-primary: var(--vc-primary);
+  --color-primary-fg: var(--vc-primary-fg);
+  --color-primary-hover: var(--vc-primary-hover);
+  --color-accent: var(--vc-accent);
+  --color-success: var(--vc-success);
+  --color-warning: var(--vc-warning);
+  --color-danger: var(--vc-danger);
+  --color-danger-fg: var(--vc-danger-fg);
+  --color-ring: var(--vc-ring);
+  --color-stage: var(--vc-stage);
+  --radius-md: var(--vc-radius);
+  --radius-sm: calc(var(--vc-radius) - 4px);
+  --radius-lg: calc(var(--vc-radius) + 6px);
+  --font-sans:
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans',
+    'Noto Sans Devanagari', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+html,
+body {
+  background: var(--vc-bg);
+  color: var(--vc-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  border-color: var(--vc-border);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--vc-ring);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--vc-border-strong);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Scene-type colour chips used in the timeline and panels */
+.vc-scene-intro {
+  --scene-color: #6366f1;
+}
+.vc-scene-hook {
+  --scene-color: #f59e0b;
+}
+.vc-scene-text {
+  --scene-color: #64748b;
+}
+.vc-scene-image {
+  --scene-color: #10b981;
+}
+.vc-scene-video {
+  --scene-color: #06b6d4;
+}
+.vc-scene-feature {
+  --scene-color: #8b5cf6;
+}
+.vc-scene-product {
+  --scene-color: #f97316;
+}
+.vc-scene-quote {
+  --scene-color: #ec4899;
+}
+.vc-scene-cta {
+  --scene-color: #22c55e;
+}
+.vc-scene-outro {
+  --scene-color: #3b82f6;
+}

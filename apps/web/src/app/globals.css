@@ -1,0 +1,9 @@
+@import 'tailwindcss';
+@import '@guidedreel/ui/styles.css';
+@source '../../../../packages/ui/src';
+
+html,
+body,
+#__next {
+  height: 100%;
+}

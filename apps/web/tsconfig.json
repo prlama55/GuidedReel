@@ -1,0 +1,19 @@
+{
+  "extends": "@guidedreel/config/tsconfig/base.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "allowJs": true,
+    "types": ["node"],
+    "plugins": [{ "name": "next" }],
+    "paths": { "@/*": ["./src/*"] }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "next.config.ts",
+    "playwright.config.ts"
+  ],
+  "exclude": ["node_modules", ".next"]
+}

@@ -1,0 +1,4 @@
+{
+  "extends": "@guidedreel/config/tsconfig/node-library.json",
+  "include": ["src", "scripts"]
+}

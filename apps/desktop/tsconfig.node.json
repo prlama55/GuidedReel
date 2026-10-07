@@ -1,0 +1,12 @@
+{
+  "extends": "@guidedreel/config/tsconfig/node-library.json",
+  "compilerOptions": { "types": ["node", "electron-vite/node"], "lib": ["ES2023", "DOM"] },
+  "include": [
+    "src/main",
+    "src/preload",
+    "src/shared",
+    "electron.vite.config.ts",
+    "playwright.config.ts",
+    "e2e"
+  ]
+}

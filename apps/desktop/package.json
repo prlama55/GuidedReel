@@ -1,0 +1,67 @@
+{
+  "name": "@guidedreel/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GuidedReel desktop app, developed by Padma Raj Lama",
+  "author": {
+    "name": "Padma Raj Lama",
+    "url": "https://github.com/prlama55"
+  },
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "electron-vite build && pnpm build:bundle",
+    "build:bundle": "tsx ../../packages/renderer/scripts/build-bundle.ts resources/remotion-bundle",
+    "preview": "electron-vite preview",
+    "typecheck": "tsc -p tsconfig.node.json && tsc -p tsconfig.web.json",
+    "lint": "eslint src",
+    "test": "echo \"(desktop logic is covered by package tests; packaging via dist:*)\"",
+    "dist": "pnpm build && electron-builder --config electron-builder.yml",
+    "dist:dir": "pnpm build && electron-builder --dir --config electron-builder.yml",
+    "dist:mac": "pnpm build && electron-builder --mac --config electron-builder.yml",
+    "dist:win": "pnpm build && electron-builder --win --config electron-builder.yml",
+    "dist:linux": "pnpm build && electron-builder --linux --config electron-builder.yml",
+    "clean": "rimraf out release .turbo resources/remotion-bundle",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@remotion/bundler": "catalog:",
+    "@remotion/renderer": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@playwright/test": "catalog:",
+    "@tailwindcss/vite": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@guidedreel/compositions": "workspace:*",
+    "@guidedreel/config": "workspace:*",
+    "@guidedreel/engine": "workspace:*",
+    "@guidedreel/providers": "workspace:*",
+    "@guidedreel/renderer": "workspace:*",
+    "@guidedreel/schema": "workspace:*",
+    "@guidedreel/storage": "workspace:*",
+    "@guidedreel/templates": "workspace:*",
+    "@guidedreel/ui": "workspace:*",
+    "@vitejs/plugin-react": "catalog:",
+    "electron": "44.6.0",
+    "electron-builder": "catalog:",
+    "electron-vite": "catalog:",
+    "eslint": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "rimraf": "catalog:",
+    "tailwindcss": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  },
+  "homepage": "https://github.com/prlama55/GuidedReel#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prlama55/GuidedReel.git",
+    "directory": "apps/desktop"
+  },
+  "license": "MIT"
+}

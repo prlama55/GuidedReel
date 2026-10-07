@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350"><defs><linearGradient id="g" gradientTransform="rotate(90)"><stop offset="0" stop-color="#ECFEFF"/><stop offset="1" stop-color="#A5F3FC"/></linearGradient><linearGradient id="b" gradientTransform="rotate(90)"><stop offset="0" stop-color="#0E7490"/><stop offset="1" stop-color="#164E63"/></linearGradient></defs><rect width="1080" height="1350" fill="url(#g)"/>
+       <ellipse cx="540" cy="1180" rx="300" ry="40" fill="#0E7490" opacity=".25"/>
+       <rect x="400" y="260" width="280" height="880" rx="110" fill="url(#b)"/>
+       <rect x="440" y="150" width="200" height="160" rx="40" fill="#164E63"/>
+       <rect x="470" y="420" width="140" height="420" rx="70" fill="#fff" opacity=".18"/>
+       <text x="540" y="1010" font-family="Helvetica, Arial, sans-serif" font-size="64" font-weight="800" fill="#fff" text-anchor="middle" opacity=".9">AERO</text></svg>

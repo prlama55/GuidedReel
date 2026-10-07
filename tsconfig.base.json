@@ -1,0 +1,3 @@
+{
+  "extends": "@guidedreel/config/tsconfig/base.json"
+}

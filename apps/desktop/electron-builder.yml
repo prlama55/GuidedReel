@@ -1,0 +1,57 @@
+appId: com.guidedreel.app
+productName: GuidedReel
+copyright: Copyright © 2026 Padma Raj Lama
+directories:
+  output: release
+  buildResources: build
+files:
+  - out/**
+  - package.json
+extraResources:
+  - from: resources/remotion-bundle
+    to: remotion-bundle
+# Remotion's renderer and compositor binaries must run from disk, not from the asar archive.
+asarUnpack:
+  - '**/node_modules/@remotion/**'
+  - '**/node_modules/esbuild/**'
+npmRebuild: false
+# Release metadata for GitHub Releases and future auto-updates. CI passes --publish never,
+# so nothing is uploaded by electron-builder itself; the release workflow attaches artifacts.
+publish:
+  provider: github
+  owner: prlama55
+  repo: GuidedReel
+
+mac:
+  category: public.app-category.video
+  target:
+    - target: dmg
+      arch: [arm64, x64]
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  # Signing/notarization are driven by env vars (CSC_LINK, APPLE_ID, ...) in CI only.
+  notarize: false
+  extendInfo:
+    NSMicrophoneUsageDescription: GuidedReel uses the microphone to record voiceovers for your videos.
+dmg:
+  contents:
+    - { x: 130, y: 220 }
+    - { x: 410, y: 220, type: link, path: /Applications }
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  perMachine: false
+
+linux:
+  category: Video
+  target:
+    - AppImage
+    - deb
+  maintainer: Padma Raj Lama

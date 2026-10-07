@@ -1,0 +1,25 @@
+@import 'tailwindcss';
+@import '@guidedreel/ui/styles.css';
+@source '../../../../../packages/ui/src';
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+/*
+ * macOS hiddenInset title bar: the app's own toolbars act as the drag region.
+ * Interactive children opt out so clicks are never swallowed by the drag area.
+ */
+[data-vc-titlebar] {
+  -webkit-app-region: drag;
+}
+[data-vc-titlebar] button,
+[data-vc-titlebar] a,
+[data-vc-titlebar] input,
+[data-vc-titlebar] select,
+[data-vc-titlebar] textarea,
+[data-vc-titlebar] [role='button'] {
+  -webkit-app-region: no-drag;
+}

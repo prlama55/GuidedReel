@@ -1,0 +1,29 @@
+{
+  "name": "@guidedreel/providers",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint src",
+    "test": "vitest run",
+    "clean": "rimraf dist .turbo coverage"
+  },
+  "dependencies": {
+    "@guidedreel/engine": "workspace:*"
+  },
+  "devDependencies": {
+    "@guidedreel/config": "workspace:*",
+    "eslint": "catalog:",
+    "rimraf": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

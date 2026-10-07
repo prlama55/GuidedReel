@@ -1,0 +1,12 @@
+node_modules
+dist
+.next
+out
+release
+coverage
+pnpm-lock.yaml
+.turbo
+apps/desktop/resources/remotion-bundle
+apps/web/next-env.d.ts
+.render
+apps/desktop/.electron-dev

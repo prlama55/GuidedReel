@@ -1,0 +1,15 @@
+export * from './VideoComposition';
+export * from './SceneRenderer';
+export * from './metadata';
+export * from './sample';
+export * from './theme';
+export * from './context';
+export * from './animations/index';
+export * from './transitions/index';
+export * from './scenes/registry';
+export { RemotionRoot } from './Root';
+export * from './components/slots';
+export * from './components/fit';
+export * from './components/Overlays';
+export * from './animations/presets';
+export * from './animations/useSceneMotion';
