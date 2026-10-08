@@ -262,6 +262,9 @@ describe('scaffold: thin app on @guidedreel/core (both apps)', () => {
       'packages/extensions/src/index.ts',
       'packages/extensions/src/templates/launch-promo.ts',
       'packages/extensions/src/templates.test.ts',
+      'CLAUDE.md',
+      '.claude/skills/extend-templates/SKILL.md',
+      '.claude/skills/app-shell/SKILL.md',
     ]) {
       expect(files, f).toContain(f);
     }
@@ -308,6 +311,12 @@ describe('scaffold: thin app on @guidedreel/core (both apps)', () => {
       'utf8',
     );
     expect(tpl).toContain("id: 'my-studio-launch-promo'");
+    const claude = await readFile(path.join(target, 'CLAUDE.md'), 'utf8');
+    expect(claude).toContain('# My Studio');
+    expect(claude).toContain('pnpm dev:desktop');
+    const skill = await readFile(path.join(target, '.claude/skills/app-shell/SKILL.md'), 'utf8');
+    expect(skill).toContain('@mystudio/extensions');
+    expect(skill).toContain('com.my-studio.app');
   });
 
   it('keeps the @guidedreel scope for engine packages while renaming product and author', async () => {

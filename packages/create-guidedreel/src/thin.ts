@@ -363,3 +363,132 @@ ${licenseText.trimEnd()}
 \`\`\`
 `;
 }
+
+/** CLAUDE.md and project skills so Claude Code knows the rules of a generated app. */
+export function thinClaudeFiles(opts: ScaffoldOptions): GeneratedFiles {
+  const { displayName, scope, slug, apps } = opts;
+  const appsList = [
+    apps.web ? '`apps/web` (Next.js)' : null,
+    apps.desktop ? '`apps/desktop` (Electron)' : null,
+  ]
+    .filter(Boolean)
+    .join(' and ');
+  const docs = `${UPSTREAM.repoUrl}/tree/main/docs`;
+
+  const claudeMd = `# ${displayName}
+
+Video creator app built on \`@guidedreel/core\` (${appsList}). The engine (schemas, timeline, scene
+components, Remotion renderer, editor UI) comes from the \`@guidedreel/*\` npm packages; this
+repository owns the app shells and the templates in \`packages/extensions\`.
+
+## Rules
+
+- Apps import only \`@guidedreel/core\` (and its subpaths \`/ui\`, \`/render\`, \`/storage\`, \`/providers\`,
+  \`/styles.css\`). Never import \`remotion\`, \`@remotion/*\` or another \`@guidedreel/*\` package directly;
+  ESLint (\`createConfig({ app: true })\`) rejects it.
+- New templates go in \`packages/extensions/src/templates/\` and are added to the \`templates\` array in
+  \`packages/extensions/src/index.ts\`. Both shells register them on start-up. Scene *types* cannot be
+  added here (they live in the engine's render bundle); compose templates from the built-in types.
+- Keep \`pnpm lint\`, \`pnpm typecheck\` and \`pnpm test\` green. \`pnpm test\` validates every template
+  in every format it supports.
+- Engine upgrades: \`pnpm up "@guidedreel/*"\`, then run the checks.
+
+## Commands
+
+${apps.web ? '- `pnpm dev:web` — Next.js at http://localhost:3000\n' : ''}${apps.desktop ? '- `pnpm dev:desktop` — Electron with hot reload\n' : ''}- \`pnpm build\` · \`pnpm lint\` · \`pnpm typecheck\` · \`pnpm test\` · \`pnpm format\`
+${apps.desktop ? `- \`pnpm --filter @${scope}/desktop dist:mac|dist:win|dist:linux\` — installers\n` : ''}
+Skills in \`.claude/skills/\` cover template authoring and the app shells. Engine documentation: ${docs}.
+`;
+
+  const templatesSkill = `---
+name: extend-templates
+description: Use when adding or changing a video template in ${displayName} — files under packages/extensions/src/templates, TemplateDefinition, inputSchema/sampleInput/create, buildProject and SceneSpec, the built-in scene types and their props, template categories/formats, registration in packages/extensions/src/index.ts, or a failing templates.test.ts. Triggers — "add a template", "new template", "template not showing", "SceneSpec", "buildProject", "scene props", "which scene types", "template test failed".
+---
+
+# Templates (packages/extensions)
+
+Templates are pure data: a \`TemplateDefinition\` turns user input into a project made of the engine's built-in scene types. No React, no Remotion. The example is \`src/templates/launch-promo.ts\`; the test is \`src/templates.test.ts\`.
+
+## Add one
+
+1. Copy \`launch-promo.ts\`, pick a unique \`meta.id\` (prefix with \`${slug}-\`), name, description, \`category\`, \`supportedFormats\`, \`accentColor\`.
+2. Define \`inputSchema\` with Zod (what the new-project dialog asks for) and \`sampleInput()\` with real content (the preview plays immediately).
+3. Build scenes in \`create(input, ctx)\` as \`SceneSpec[]\` and return \`buildProject(ctx, meta.id, specs, { defaultTransition })\`.
+4. Add it to \`templates\` in \`src/index.ts\`. Both shells call \`templateRegistry.registerAll(templates)\`, so it appears in the Templates gallery and the new-project dialog.
+5. \`pnpm test\`: every template is instantiated with its sample input in every supported format and validated.
+
+Imports come from \`@guidedreel/core\`: \`buildProject\`, \`SceneSpec\`, \`TemplateDefinition\`, \`TemplateRegistry\`, \`FORMAT_PRESETS\`, \`validateProject\`, \`calculateTimeline\`.
+
+## Reference
+
+- \`category\`: \`promotional\` | \`advertisement\` | \`social\` | \`educational\` | \`news\` | \`event\` | \`other\`.
+- \`supportedFormats\`: \`'9:16'\` (Reels, Shorts, TikTok, Stories), \`'16:9'\`, \`'1:1'\`, \`'4:5'\`.
+- \`SceneSpec\` = \`{ type, props, title?, durationSeconds?, durationInFrames?, transitionIn?, voiceoverAssetId?, durationMode? }\`. Omit duration to get the scene type's default. \`transitionIn\` = \`{ type: 'fade' | 'slide-left' | 'slide-right' | 'slide-up' | 'slide-down' | 'zoom' | 'wipe', durationInFrames }\` (never on the first scene).
+- Props are validated against each scene type's schema; unknown or invalid props fail \`pnpm test\`. The editor's inspector shows every field with its allowed values.
+
+| Scene type | Main props |
+| --- | --- |
+| \`hook\` | \`text\`, \`highlightWords\` (string[]), \`size\` (sm/md/lg/xl), \`animation\` ('word-by-word' or an enter animation) |
+| \`intro\` | \`title\`, \`subtitle\`, \`showLogo\`, \`logoAssetId\` |
+| \`text\` | \`text\`, \`align\` (left/center/right), \`size\`, \`animation\` |
+| \`image\` | \`imageAssetId\`, \`caption\`, \`motion\`, \`backgroundColor\` |
+| \`video\` | \`videoAssetId\`, \`caption\`, \`startFromSeconds\`, \`muted\`, \`volume\`, \`backgroundColor\` |
+| \`feature\` | \`badge\`, \`title\`, \`description\`, \`mediaAssetId\`, \`layout\` (e.g. 'media-top') |
+| \`product\` | \`name\`, \`tagline\`, \`price\`, \`bullets\` (string[]), \`imageAssetId\` |
+| \`quote\` | \`quote\`, \`author\`, \`role\`, \`rating\`, \`avatarAssetId\` |
+| \`cta\` | \`headline\`, \`subline\`, \`buttonText\`, \`url\`, \`showLogo\` |
+| \`outro\` | \`text\`, \`handles\` (string[]), \`showLogo\` |
+
+Most types also accept \`backgroundAssetId\` / background colour props and \`exitAnimation\`. Asset ids reference uploads the user adds later; templates normally leave them empty.
+
+Engine docs for scenes and templates: ${docs}/scene-system.md and ${docs}/template-system.md.
+`;
+
+  const appSkill = `---
+name: app-shell
+description: Use when working on ${displayName}'s app shells — ${appsList}: how they wire @guidedreel/core (EditorHost, storage, render client, platform adapter), where templates are registered, build and dev commands, upgrading the engine, branding files, Next.js serverExternalPackages, Electron packaging and the "no Remotion in apps" rule. Triggers — "providers.tsx", "App.tsx", "EditorHost", "dev:web", "dev:desktop", "electron-builder", "upgrade core", "pnpm up @guidedreel", "lint says Apps depend on @guidedreel/core only", "branding", "icons".
+---
+
+# App shells
+
+Thin shells around \`@guidedreel/core\`. Everything that makes a video lives in the engine packages; the shells inject platform pieces and register templates.
+
+## Where things are
+${
+  apps.web
+    ? `
+- **Web** \`apps/web\`: \`src/app/providers.tsx\` builds the \`EditorHost\` (IndexedDB storage, HTTP render client, web platform adapter, \`templateRegistry\`) and registers \`templates\` from \`@${scope}/extensions\`. Server rendering: \`src/server/render-service.ts\` behind \`src/app/api/render/*\` (in-process queue; needs a long-running Node server, not serverless). TTS proxy in \`src/app/api/tts/*\`. \`next.config.ts\` keeps \`@guidedreel/renderer\`, \`@guidedreel/compositions\` and \`@remotion/*\` in \`serverExternalPackages\` and transpiles \`@${scope}/extensions\`. Env: copy \`.env.example\` to \`apps/web/.env.local\`.
+`
+    : ''
+}${
+    apps.desktop
+      ? `
+- **Desktop** \`apps/desktop\`: \`src/main\` (window, menu, IPC, \`app://\` asset protocol, render \`utilityProcess\` in \`render-manager.ts\`/\`render-worker.ts\`, local TTS), \`src/preload\`, \`src/renderer/src/App.tsx\` (builds the \`EditorHost\` and registers templates). \`scripts/build-bundle.ts\` prebuilds the Remotion bundle shipped in \`resources/\`. \`electron-builder.yml\`: app id \`com.${slug}.app\`, product name, installers. electron-builder packs only \`dependencies\`, so anything the main process needs at runtime must be a dependency (\`@guidedreel/core\`, \`react\`, \`react-dom\`, \`zod\`); \`@${scope}/extensions\` stays a devDependency (bundled by Vite). \`e2e/packaged.spec.ts\` boots the packaged app; run \`pnpm --filter @${scope}/desktop exec electron-builder --dir --config electron-builder.yml\` first.
+`
+      : ''
+  }
+- **Templates** \`packages/extensions\` (see the \`extend-templates\` skill).
+
+## Rules
+
+- Import only \`@guidedreel/core\` and its subpaths. ESLint rejects \`remotion\`, \`@remotion/*\` and other \`@guidedreel/*\` packages in app code.
+- Styling: \`@import "tailwindcss"; @import "@guidedreel/core/styles.css";\` — the engine stylesheet registers its own Tailwind source.
+- Brand colours belong to videos (brand kit), never to the app UI.
+
+## Commands
+
+${apps.web ? '- `pnpm dev:web`, `pnpm build:web`, `pnpm test:e2e` (Playwright)\n' : ''}${apps.desktop ? `- \`pnpm dev:desktop\`, \`pnpm build:desktop\`, \`pnpm --filter @${scope}/desktop dist:mac|dist:win|dist:linux\`\n` : ''}- \`pnpm lint\` · \`pnpm typecheck\` · \`pnpm test\` · \`pnpm format\`
+- Upgrade the engine: \`pnpm up "@guidedreel/*"\` then the checks above. All \`@guidedreel/*\` packages share one version; keep them equal.
+
+## Branding
+${apps.web ? '\n- Web: `apps/web/public/icons/`, `apps/web/src/app/icon.svg`, `apple-icon.png`, `opengraph-image.png`, `twitter-image.png`, metadata in `apps/web/src/app/layout.tsx`.' : ''}${apps.desktop ? '\n- Desktop: `apps/desktop/build/icon.png`, `apps/desktop/electron-builder.yml`, `apps/desktop/src/main/app-info.ts`.' : ''}
+
+Engine documentation: ${docs} (architecture, rendering, desktop, web, user guide).
+`;
+
+  return {
+    'CLAUDE.md': claudeMd,
+    '.claude/skills/extend-templates/SKILL.md': templatesSkill,
+    '.claude/skills/app-shell/SKILL.md': appSkill,
+  };
+}

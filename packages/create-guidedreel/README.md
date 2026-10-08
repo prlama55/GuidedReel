@@ -26,7 +26,9 @@ my-studio/
 ├── packages/extensions/      @mystudio/extensions: your templates (an example is included)
 ├── package.json              pnpm + Turborepo scripts
 ├── pnpm-workspace.yaml       versions pinned to the ones core was built with
-└── .github/workflows/ci.yml
+├── .github/workflows/ci.yml
+├── CLAUDE.md                 project rules for Claude Code
+└── .claude/skills/           extend-templates, app-shell
 ```
 
 Both shells call `templateRegistry.registerAll(templates)` with the array exported from `packages/extensions`, so adding a template is: copy the example, change its id, add it to the array. `pnpm test` instantiates every template in every format it supports and validates the result.

@@ -18,6 +18,7 @@ import {
   corePackageSpec,
   tarballOverrides,
   thinCiWorkflow,
+  thinClaudeFiles,
   thinExtensionsFiles,
   thinRootPackageJson,
   thirdPartyNotices,
@@ -93,6 +94,7 @@ export async function scaffold(
           'THIRD_PARTY_NOTICES.md': thirdPartyNotices(licenseText),
           'README.md': renderThinReadme(opts),
           ...thinExtensionsFiles(opts),
+          ...thinClaudeFiles(opts),
         }
       : { 'README.md': renderForkReadme(opts) };
   for (const [rel, content] of Object.entries(generated)) {
