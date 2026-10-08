@@ -69,11 +69,11 @@ pnpm --filter @guidedreel/desktop dist:linux  # .AppImage and .deb
 
 `scripts/install.sh` (macOS, Linux; POSIX `sh`) and `scripts/install.ps1` (Windows) let people without developer tools install the app with one command (see the README). They query the GitHub Releases API for the latest release (or `--version <tag>`), pick the asset for the current OS and CPU, download it and install it: `.dmg` is mounted and the app copied to `/Applications` (or `~/Applications`) with the quarantine flag cleared because builds are not notarized yet; the AppImage goes to `~/.local/bin` with a `.desktop` entry and icon; `--deb` uses `apt-get`; the Windows `.exe` runs the NSIS wizard, or `/S` with `-Silent`.
 
-`electron-builder.yml` sets `artifactName: ${productName}-${version}-${os}-${arch}.${ext}` so the file names are predictable (`GuidedReel-0.1.0-mac-arm64.dmg`, `GuidedReel-0.1.0-win-x64.exe`, `GuidedReel-0.1.0-linux-x86_64.AppImage`, `guidedreel-0.1.0-linux-amd64.deb`). The scripts match loosely on `arm64|aarch64` and `x64|x86_64|amd64`, so older names still work.
+`electron-builder.yml` sets `artifactName: ${productName}-${version}-${os}-${arch}.${ext}` so the file names are predictable (`GuidedReel-0.2.0-mac-arm64.dmg`, `GuidedReel-0.2.0-win-x64.exe`, `GuidedReel-0.2.0-linux-x86_64.AppImage`, `guidedreel-0.2.0-linux-amd64.deb`). The scripts match loosely on `arm64|aarch64` and `x64|x86_64|amd64`, so older names still work.
 
 The scripts read `/releases/latest`, which ignores drafts and pre-releases: after the release workflow finishes, publish the draft release on GitHub and the scripts pick it up. The repository URL is a single constant (`REPO_URL` / `$RepoUrl`), so forks created with `create-guidedreel` get their own URL.
 
-Test locally without a release by pointing a script at a file: `sh scripts/install.sh --file apps/desktop/release/GuidedReel-0.1.0-mac-arm64.dmg --dir /tmp/Applications --no-open`, or `.\scripts\install.ps1 -File .\GuidedReel-0.1.0-win-x64.exe`.
+Test locally without a release by pointing a script at a file: `sh scripts/install.sh --file apps/desktop/release/GuidedReel-0.2.0-mac-arm64.dmg --dir /tmp/Applications --no-open`, or `.\scripts\install.ps1 -File .\GuidedReel-0.2.0-win-x64.exe`.
 
 ## Development app name on macOS
 

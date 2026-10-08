@@ -2,7 +2,7 @@ appId: com.guidedreel.app
 productName: GuidedReel
 copyright: Copyright © 2026 Padma Raj Lama
 # Predictable release file names, matched by scripts/install.sh and scripts/install.ps1:
-#   GuidedReel-0.1.0-mac-arm64.dmg, GuidedReel-0.1.0-win-x64.exe, GuidedReel-0.1.0-linux-x86_64.AppImage, ...
+#   GuidedReel-0.2.0-mac-arm64.dmg, GuidedReel-0.2.0-win-x64.exe, GuidedReel-0.2.0-linux-x86_64.AppImage, ...
 artifactName: ${productName}-${version}-${os}-${arch}.${ext}
 directories:
   output: release

@@ -1,6 +1,6 @@
 {
   "name": "guidedreel",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Script-to-video creator for Reels, Shorts, TikTok and ads. Shared Remotion engine behind a Next.js web app and an Electron desktop app.",
   "private": true,
   "license": "MIT",
