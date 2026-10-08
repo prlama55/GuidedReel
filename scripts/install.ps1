@@ -52,10 +52,20 @@ if ($File) {
     "https://api.github.com/repos/$OwnerRepo/releases/tags/$tag"
   }
   Write-Step "Looking up release ($Version) from $RepoUrl"
+  $headers = @{ 'User-Agent' = "$AppName-installer" }
   try {
-    $release = Invoke-RestMethod -Uri $api -Headers @{ 'User-Agent' = "$AppName-installer" }
+    $release = Invoke-RestMethod -Uri $api -Headers $headers
   } catch {
-    throw "No published release found ($api). Releases: $RepoUrl/releases"
+    $release = $null
+    if ($Version -eq 'latest') {
+      # /releases/latest ignores releases flagged "pre-release" (common for 0.x builds); fall back
+      # to the newest published release of any kind. Drafts never appear in the public list.
+      try {
+        $all = @(Invoke-RestMethod -Uri "https://api.github.com/repos/$OwnerRepo/releases?per_page=20" -Headers $headers)
+        $release = $all | Where-Object { -not $_.draft } | Select-Object -First 1
+      } catch { $release = $null }
+    }
+    if (-not $release) { throw "No published release found ($api). Releases: $RepoUrl/releases" }
   }
   $exes = @($release.assets | Where-Object { $_.name -match '\.exe$' })
   $asset = $exes | Where-Object { $_.name -match "($archPattern)" } | Select-Object -First 1

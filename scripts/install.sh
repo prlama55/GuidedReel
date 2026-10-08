@@ -82,14 +82,24 @@ http_get() {
 }
 
 release_assets() {
+  api_base="https://api.github.com/repos/$OWNER_REPO/releases"
   if [ "$VERSION" = "latest" ]; then
-    api="https://api.github.com/repos/$OWNER_REPO/releases/latest"
+    api="$api_base/latest"
+    # /releases/latest ignores releases flagged "pre-release" (common for 0.x builds), so fall
+    # back to the newest published release of any kind. Drafts never appear in the public list.
+    json="$(http_get "$api" - 2>/dev/null)" || {
+      tag="$(http_get "$api_base?per_page=20" - 2>/dev/null | grep -o '"tag_name": *"[^"]*"' | head -n 1 | sed 's/.*"\([^"]*\)"$/\1/')"
+      [ -n "$tag" ] || fail "No published release found at $api.
+Releases: $REPO_URL/releases"
+      api="$api_base/tags/$tag"
+      json="$(http_get "$api" - 2>/dev/null)" || fail "Could not read release $tag ($api)."
+    }
   else
     case "$VERSION" in v*) tag="$VERSION" ;; *) tag="v$VERSION" ;; esac
-    api="https://api.github.com/repos/$OWNER_REPO/releases/tags/$tag"
-  fi
-  json="$(http_get "$api" - 2>/dev/null)" || fail "No published release found at $api.
+    api="$api_base/tags/$tag"
+    json="$(http_get "$api" - 2>/dev/null)" || fail "No published release found at $api.
 Releases: $REPO_URL/releases"
+  fi
   printf '%s\n' "$json" | grep -o '"browser_download_url": *"[^"]*"' | sed 's/.*"\(http[^"]*\)"/\1/'
 }
 
