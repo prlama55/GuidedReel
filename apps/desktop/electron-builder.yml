@@ -53,6 +53,8 @@ nsis:
   perMachine: false
 
 linux:
+  # electron-builder derives the binary name from the package name (@guidedreel/desktop), which AppImage rejects.
+  executableName: guidedreel
   category: Video
   target:
     - AppImage

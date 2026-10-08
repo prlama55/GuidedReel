@@ -33,7 +33,14 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build:desktop
       - name: Package installers
-        run: pnpm --filter @guidedreel/desktop exec electron-builder ${{ matrix.target }} --publish never --config electron-builder.yml
+        shell: bash
+        # Unset signing variables that resolve to '' (secret not configured); electron-builder
+        # treats an empty CSC_LINK as a certificate path and fails with "not a file".
+        run: |
+          for v in CSC_LINK CSC_KEY_PASSWORD APPLE_ID APPLE_APP_SPECIFIC_PASSWORD APPLE_TEAM_ID WIN_CSC_LINK WIN_CSC_KEY_PASSWORD; do
+            eval "[ -n \"\${$v}\" ] || unset $v"
+          done
+          pnpm --filter @guidedreel/desktop exec electron-builder ${{ matrix.target }} --publish never --config electron-builder.yml
         env:
           # macOS signing + notarization (optional; builds are unsigned when unset)
           CSC_LINK: ${{ secrets.CSC_LINK }}
