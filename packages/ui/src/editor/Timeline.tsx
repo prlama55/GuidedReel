@@ -50,6 +50,7 @@ export const Timeline: React.FC<{ playerRef: React.RefObject<PlayerRef | null> }
   const select = useEditorStore((s) => s.select);
   const moveScene = useEditorStore((s) => s.moveScene);
   const setSceneDuration = useEditorStore((s) => s.setSceneDuration);
+  const updateSceneProps = useEditorStore((s) => s.updateSceneProps);
   const addScene = useEditorStore((s) => s.addScene);
   const currentFrame = useEditorStore((s) => s.currentFrame);
   const problems = useEditorStore((s) => s.problems);
@@ -231,8 +232,24 @@ export const Timeline: React.FC<{ playerRef: React.RefObject<PlayerRef | null> }
                           seekToScene(scene.id);
                         }}
                         onResize={(deltaPx) => {
-                          const deltaFrames = secondsToFrames(deltaPx / pxPerSecond, fps);
+                          // secondsToFrames clamps at 0, so keep the sign separate or shrinking is lost.
+                          const deltaFrames =
+                            Math.sign(deltaPx) *
+                            secondsToFrames(Math.abs(deltaPx) / pxPerSecond, fps);
                           setSceneDuration(scene.id, scene.durationInFrames + deltaFrames);
+                        }}
+                        pxPerSecond={pxPerSecond}
+                        onTrimStart={(removed) => {
+                          // `removed` = frames cut from the front (committed once, on release).
+                          if (removed === 0) return;
+                          setSceneDuration(scene.id, scene.durationInFrames - removed);
+                          // For video scenes, move the source in-point so the footage is trimmed, not just cut short.
+                          if (scene.type === 'video') {
+                            const current = Number(scene.props.startFromSeconds ?? 0);
+                            updateSceneProps(scene.id, {
+                              startFromSeconds: Math.max(0, current + removed / fps),
+                            });
+                          }
                         }}
                         fps={fps}
                       />
@@ -295,8 +312,23 @@ const SceneCard: React.FC<{
   hasWarning: boolean;
   onSelect: () => void;
   onResize: (deltaPx: number) => void;
+  onTrimStart: (removedFrames: number) => void;
+  pxPerSecond: number;
   fps: number;
-}> = ({ scene, item, index, width, selected, hasError, hasWarning, onSelect, onResize, fps }) => {
+}> = ({
+  scene,
+  item,
+  index,
+  width,
+  selected,
+  hasError,
+  hasWarning,
+  onSelect,
+  onResize,
+  onTrimStart,
+  pxPerSecond,
+  fps,
+}) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: scene.id,
   });
@@ -313,19 +345,52 @@ const SceneCard: React.FC<{
     const target = e.currentTarget as HTMLElement;
     target.setPointerCapture(e.pointerId);
   };
-  const onPointerMove = (e: React.PointerEvent) => {
+  const makeMoveHandler = (apply: (deltaPx: number) => void) => (e: React.PointerEvent) => {
     if (!(e.currentTarget as HTMLElement).hasPointerCapture(e.pointerId)) return;
     const delta = e.clientX - lastX.current;
     if (Math.abs(delta) >= 4) {
-      onResize(delta);
+      apply(delta);
       lastX.current = e.clientX;
     }
+  };
+  const onPointerMove = makeMoveHandler(onResize);
+  // Live left-trim: the card's left edge follows the pointer while the right edge stays put.
+  const [trimPx, setTrimPx] = useState(0);
+  const trimOrigin = useRef(0);
+  const minFrames = minSceneFrames(scene, fps);
+  const maxRemove = Math.max(0, frames - minFrames);
+  const maxExtend = scene.type === 'video' ? Number(scene.props.startFromSeconds ?? 0) * fps : 0;
+  const pxPerFrame = pxPerSecond / fps;
+  const clampTrimFrames = (px: number) =>
+    Math.max(-maxExtend, Math.min(maxRemove, Math.round(px / pxPerFrame)));
+  const onTrimDown = (e: React.PointerEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    trimOrigin.current = e.clientX;
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  };
+  const onTrimMove = (e: React.PointerEvent) => {
+    if (!(e.currentTarget as HTMLElement).hasPointerCapture(e.pointerId)) return;
+    setTrimPx(clampTrimFrames(e.clientX - trimOrigin.current) * pxPerFrame);
+  };
+  const onTrimUp = (e: React.PointerEvent) => {
+    const el = e.currentTarget as HTMLElement;
+    if (!el.hasPointerCapture(e.pointerId)) return;
+    el.releasePointerCapture(e.pointerId);
+    const removed = clampTrimFrames(e.clientX - trimOrigin.current);
+    setTrimPx(0);
+    onTrimStart(removed);
   };
 
   return (
     <div
       ref={setNodeRef}
-      style={{ width, transform: CSS.Transform.toString(transform), transition }}
+      style={{
+        width: Math.max(8, width - trimPx),
+        marginLeft: trimPx,
+        transform: CSS.Transform.toString(transform),
+        transition,
+      }}
       className={cn(
         'vc-scene-' + scene.type,
         'group relative flex shrink-0 cursor-grab flex-col overflow-hidden rounded-md border bg-surface-2 text-left',
@@ -363,6 +428,16 @@ const SceneCard: React.FC<{
           <span className="h-2 w-2 rounded-full bg-warning" title="Has warnings" />
         ) : null}
       </div>
+      {scene.durationMode !== 'fromAudio' ? (
+        <div
+          onPointerDown={onTrimDown}
+          onPointerMove={onTrimMove}
+          onPointerUp={onTrimUp}
+          onClick={(e) => e.stopPropagation()}
+          className="absolute bottom-0 left-0 top-0 w-2 cursor-ew-resize opacity-0 group-hover:opacity-100 hover:bg-primary/40"
+          title="Drag to trim the start"
+        />
+      ) : null}
       {scene.durationMode !== 'fromAudio' ? (
         <div
           onPointerDown={onPointerDown}
